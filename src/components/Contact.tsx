@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle2, X } from "lucide-react";
 import Button from "./ui/Button";
 import Footer from "./Footer";
 
@@ -41,10 +42,28 @@ export default function Contact() {
     message: "",
     budget: "",
   });
+  
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    
+    // Show success modal
+    setShowSuccessModal(true);
+    
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+      budget: "",
+    });
+    
+    // Auto-dismiss after 4 seconds
+    setTimeout(() => {
+      setShowSuccessModal(false);
+    }, 4000);
   };
 
   const budgetOptions = [
@@ -57,6 +76,86 @@ export default function Contact() {
 
   return (
     <section className="relative bg-background py-16 sm:py-20 lg:py-24 min-h-screen">
+      {/* Success Modal */}
+      <AnimatePresence>
+        {showSuccessModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowSuccessModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="relative bg-background border border-primary/20 rounded-2xl p-8 max-w-md w-full shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                className="absolute top-4 right-4 text-foreground/60 hover:text-foreground transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Success Icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="flex justify-center mb-6"
+              >
+                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+                  <CheckCircle2 className="w-12 h-12 text-primary" strokeWidth={2.5} />
+                </div>
+              </motion.div>
+
+              {/* Text Content */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-center space-y-3"
+              >
+                <h3 className="text-2xl font-bold text-foreground">
+                  Message Sent Successfully!
+                </h3>
+                <p className="text-foreground/70 text-base leading-relaxed">
+                  Thank you for reaching out. We've received your message and will get back to you as soon as possible.
+                </p>
+              </motion.div>
+
+              {/* Progress Bar */}
+              <motion.div
+                className="mt-6 h-1 bg-foreground/10 rounded-full overflow-hidden"
+              >
+                <motion.div
+                  initial={{ width: "100%" }}
+                  animate={{ width: "0%" }}
+                  transition={{ duration: 4, ease: "linear" }}
+                  className="h-full bg-primary"
+                />
+              </motion.div>
+
+              {/* OK Button */}
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                onClick={() => setShowSuccessModal(false)}
+                className="mt-6 w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+              >
+                OK
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
           {/* Left - Form (70%) */}

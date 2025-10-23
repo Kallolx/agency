@@ -5,7 +5,9 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <Contact />
+      <main className="flex-grow">
+        <Contact />
+      </main>
     </div>
   );
 }

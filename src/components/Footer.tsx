@@ -30,7 +30,6 @@ export default function Footer() {
               {/* London Office */}
               <div className="space-y-1 flex flex-col items-center lg:items-start">
                 <div className="flex flex-col items-center lg:flex-row lg:items-start gap-2">
-                  <span className="fi fi-gb"></span>
                   <div>
                     <h3 className="text-foreground font-bold text-lg lg:text-xl mb-1 text-center lg:text-left">London</h3>
                     <p className="text-foreground/80 text-sm lg:text-base leading-relaxed font-medium text-center lg:text-left">
@@ -46,7 +45,6 @@ export default function Footer() {
               {/* Bangladesh Office */}
               <div className="space-y-1 flex flex-col items-center lg:items-start">
                 <div className="flex flex-col items-center lg:flex-row lg:items-start gap-2">
-                  <span className="fi fi-bd"></span>
                   <div>
                     <h3 className="text-foreground font-bold text-lg lg:text-xl mb-1 text-center lg:text-left">Bangladesh</h3>
                     <p className="text-foreground/80 text-sm lg:text-base leading-relaxed font-medium text-center lg:text-left">
