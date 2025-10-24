@@ -24,6 +24,7 @@ interface CaseStudyProps {
 
 export default function CaseStudy({ projects, sectionTitle }: CaseStudyProps) {
   const [activeProject, setActiveProject] = useState(0);
+  const [direction, setDirection] = useState(0); // 1 for next, -1 for previous
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -68,6 +69,14 @@ export default function CaseStudy({ projects, sectionTitle }: CaseStudyProps) {
           projects.length - 1
         )
       );
+      
+      // Set direction based on whether we're moving forward or backward
+      if (projectIndex > activeProject) {
+        setDirection(1); // moving forward
+      } else if (projectIndex < activeProject) {
+        setDirection(-1); // moving backward
+      }
+      
       setActiveProject(projectIndex);
     };
 
@@ -143,56 +152,80 @@ export default function CaseStudy({ projects, sectionTitle }: CaseStudyProps) {
               </div>
             </div>
 
-            {/* Right - Phone with Scrolling Images */}
+            {/* Right - Laptop with Scrolling Images */}
             <div className="flex items-center justify-center lg:justify-end">
-              <div className="relative w-[240px] sm:w-[280px] lg:w-[300px] h-[480px] sm:h-[560px] lg:h-[600px]">
-                {/* Custom Phone Frame */}
-                <div className="absolute inset-0 bg-[#1a1a1a] rounded-[40px] sm:rounded-[45px] lg:rounded-[50px] p-2.5 shadow-2xl">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-[24px] bg-[#1a1a1a] rounded-b-[18px] z-20"></div>
+              <motion.div 
+                className="relative w-full max-w-[450px] sm:max-w-[520px] lg:max-w-[580px] perspective-1000"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {/* Laptop Screen */}
+                <div className="relative">
+                  {/* Screen Frame */}
+                  <motion.div 
+                    className="relative bg-[#1a1a1a] rounded-t-[12px] sm:rounded-t-[16px] p-2 shadow-2xl"
+                  >
+                    {/* Camera Notch/Hole */}
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-[60px] h-[16px] bg-[#0d0d0d] rounded-full z-20 flex items-center justify-center">
+                      <motion.div 
+                        className="w-[6px] h-[6px] rounded-full bg-[#2a2a2a] border border-[#404040]"
+                      ></motion.div>
+                    </div>
+                    
+                    {/* Screen Area with Images */}
+                    <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[420px] bg-black rounded-[8px] sm:rounded-[12px] overflow-hidden">
+                      {/* Images - vertical slide transition effect */}
+                      {projects.map((project, index) => (
+                        <motion.div
+                          key={project.id}
+                          initial={false}
+                          animate={{
+                            y: index === activeProject ? 0 : index < activeProject ? '-100%' : '100%',
+                            opacity: index === activeProject ? 1 : 0,
+                          }}
+                          transition={{
+                            y: { type: "spring", stiffness: 300, damping: 30 },
+                            opacity: { duration: 0.2 }
+                          }}
+                          className="absolute inset-0"
+                        >
+                          <div className="relative w-full h-full">
+                            {/* Image with Next.js Image component */}
+                            {project.image ? (
+                              <Image
+                                src={project.image}
+                                alt={project.title}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 640px) 450px, (max-width: 1024px) 520px, 580px"
+                                priority={index === 0}
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-secondary/20">
+                                <span className="text-foreground/50 text-lg">
+                                  {project.title}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
                   
-                  {/* Screen Area with Images */}
-                  <div className="relative w-full h-full bg-black rounded-[32px] sm:rounded-[37px] lg:rounded-[42px] overflow-hidden">
-                    {/* Images - only show active one */}
-                    {projects.map((project, index) => (
-                      <motion.div
-                        key={project.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: index === activeProject ? 1 : 0 }}
-                        transition={{ duration: 0.4 }}
-                        className="absolute inset-0"
-                      >
-                        <div className="relative w-full h-full">
-                          {/* Image with Next.js Image component */}
-                          {project.image ? (
-                            <Image
-                              src={project.image}
-                              alt={project.title}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 640px) 240px, (max-width: 1024px) 280px, 300px"
-                              priority={index === 0}
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-secondary/20">
-                              <span className="text-foreground/50 text-lg">
-                                {project.title}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
+                  {/* Laptop Base/Keyboard */}
+                  <div className="relative h-[20px] sm:h-[24px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] rounded-b-[8px] sm:rounded-b-[12px] shadow-lg">
+                    {/* Hinge shadow */}
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-black/40"></div>
+                    {/* Trackpad indicator */}
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[60px] sm:w-[80px] h-[8px] sm:h-[10px] bg-[#151515] rounded-sm"></div>
                   </div>
                   
-                  {/* Power Button */}
-                  <div className="absolute right-0 top-[100px] w-[3px] h-[60px] bg-[#0d0d0d] rounded-l-sm"></div>
-                  
-                  {/* Volume Buttons */}
-                  <div className="absolute left-0 top-[80px] w-[3px] h-[40px] bg-[#0d0d0d] rounded-r-sm"></div>
-                  <div className="absolute left-0 top-[130px] w-[3px] h-[40px] bg-[#0d0d0d] rounded-r-sm"></div>
+                  {/* Laptop Bottom Stand */}
+                  <div className="relative">
+                    <div className="mx-auto w-[90%] h-[4px] sm:h-[6px] bg-gradient-to-b from-[#1a1a1a] to-transparent rounded-b-[6px]"></div>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
