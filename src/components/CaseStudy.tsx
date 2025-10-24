@@ -100,29 +100,29 @@ export default function CaseStudy({ projects, sectionTitle }: CaseStudyProps) {
 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left Content - Text that changes */}
-            <div className="space-y-6 lg:space-y-8">
+            <div className="space-y-4 lg:space-y-8">
               <motion.div
                 key={activeProject}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="space-y-4 lg:space-y-6"
+                className="space-y-3 lg:space-y-6"
               >
-                <span className="text-sm sm:text-base text-foreground/60 uppercase tracking-wider">
+                <span className="text-xs sm:text-sm lg:text-base text-foreground/60 uppercase tracking-wider">
                   {projects[activeProject].category}
                 </span>
 
-                <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tighter">
+                <h3 className="text-2xl sm:text-3xl lg:text-6xl font-bold text-foreground leading-tighter">
                   {projects[activeProject].title}
                 </h3>
 
-                <p className="text-lg sm:text-xl lg:text-2xl text-foreground/80 leading-relaxed">
+                <p className="text-sm sm:text-base lg:text-2xl text-foreground/80 leading-relaxed">
                   {projects[activeProject].description}
                 </p>
 
                 {/* Buttons */}
                 {projects[activeProject].buttons && (
-                  <div className="flex flex-wrap gap-4 pt-4">
+                  <div className="flex flex-wrap gap-3 pt-2 lg:pt-4">
                     {projects[activeProject].buttons?.primary && (
                       <Button variant="primary">
                         {projects[activeProject].buttons.primary.text}
@@ -138,14 +138,14 @@ export default function CaseStudy({ projects, sectionTitle }: CaseStudyProps) {
               </motion.div>
 
               {/* Progress Indicators */}
-              <div className="flex gap-2 pt-4">
+              <div className="flex gap-2 pt-2 lg:pt-4">
                 {projects.map((_, index) => (
                   <div
                     key={index}
                     className={`h-1 rounded-full transition-all duration-500 ${
                       index === activeProject
-                        ? "w-16 bg-primary"
-                        : "w-8 bg-foreground/20"
+                        ? "w-12 lg:w-16 bg-primary"
+                        : "w-6 lg:w-8 bg-foreground/20"
                     }`}
                   />
                 ))}
@@ -155,24 +155,24 @@ export default function CaseStudy({ projects, sectionTitle }: CaseStudyProps) {
             {/* Right - Laptop with Scrolling Images */}
             <div className="flex items-center justify-center lg:justify-end">
               <motion.div 
-                className="relative w-full max-w-[450px] sm:max-w-[520px] lg:max-w-[580px] perspective-1000"
+                className="relative w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[580px] perspective-1000"
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {/* Laptop Screen */}
                 <div className="relative">
                   {/* Screen Frame */}
                   <motion.div 
-                    className="relative bg-[#1a1a1a] rounded-t-[12px] sm:rounded-t-[16px] p-2 shadow-2xl"
+                    className="relative bg-[#1a1a1a] rounded-t-[8px] sm:rounded-t-[12px] lg:rounded-t-[16px] p-1.5 sm:p-2 shadow-2xl"
                   >
                     {/* Camera Notch/Hole */}
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-[60px] h-[16px] bg-[#0d0d0d] rounded-full z-20 flex items-center justify-center">
+                    <div className="absolute top-2 sm:top-3 lg:top-4 left-1/2 -translate-x-1/2 w-[40px] sm:w-[50px] lg:w-[60px] h-[12px] sm:h-[14px] lg:h-[16px] bg-[#0d0d0d] rounded-full z-20 flex items-center justify-center">
                       <motion.div 
-                        className="w-[6px] h-[6px] rounded-full bg-[#2a2a2a] border border-[#404040]"
+                        className="w-[4px] sm:w-[5px] lg:w-[6px] h-[4px] sm:h-[5px] lg:h-[6px] rounded-full bg-[#2a2a2a] border border-[#404040]"
                       ></motion.div>
                     </div>
                     
                     {/* Screen Area with Images */}
-                    <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[420px] bg-black rounded-[8px] sm:rounded-[12px] overflow-hidden">
+                    <div className="relative w-full h-[220px] sm:h-[280px] lg:h-[420px] bg-black rounded-[6px] sm:rounded-[8px] lg:rounded-[12px] overflow-hidden">
                       {/* Images - vertical slide transition effect */}
                       {projects.map((project, index) => (
                         <motion.div
@@ -196,12 +196,12 @@ export default function CaseStudy({ projects, sectionTitle }: CaseStudyProps) {
                                 alt={project.title}
                                 fill
                                 className="object-cover"
-                                sizes="(max-width: 640px) 450px, (max-width: 1024px) 520px, 580px"
+                                sizes="(max-width: 640px) 320px, (max-width: 1024px) 380px, 580px"
                                 priority={index === 0}
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center bg-secondary/20">
-                                <span className="text-foreground/50 text-lg">
+                                <span className="text-foreground/50 text-sm lg:text-lg">
                                   {project.title}
                                 </span>
                               </div>
@@ -213,16 +213,16 @@ export default function CaseStudy({ projects, sectionTitle }: CaseStudyProps) {
                   </motion.div>
                   
                   {/* Laptop Base/Keyboard */}
-                  <div className="relative h-[20px] sm:h-[24px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] rounded-b-[8px] sm:rounded-b-[12px] shadow-lg">
+                  <div className="relative h-[14px] sm:h-[18px] lg:h-[24px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] rounded-b-[6px] sm:rounded-b-[8px] lg:rounded-b-[12px] shadow-lg">
                     {/* Hinge shadow */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-black/40"></div>
+                    <div className="absolute top-0 left-0 right-0 h-[1px] sm:h-[1.5px] lg:h-[2px] bg-black/40"></div>
                     {/* Trackpad indicator */}
-                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[60px] sm:w-[80px] h-[8px] sm:h-[10px] bg-[#151515] rounded-sm"></div>
+                    <div className="absolute bottom-0.5 sm:bottom-1 left-1/2 -translate-x-1/2 w-[40px] sm:w-[60px] lg:w-[80px] h-[6px] sm:h-[8px] lg:h-[10px] bg-[#151515] rounded-sm"></div>
                   </div>
                   
                   {/* Laptop Bottom Stand */}
                   <div className="relative">
-                    <div className="mx-auto w-[90%] h-[4px] sm:h-[6px] bg-gradient-to-b from-[#1a1a1a] to-transparent rounded-b-[6px]"></div>
+                    <div className="mx-auto w-[90%] h-[3px] sm:h-[4px] lg:h-[6px] bg-gradient-to-b from-[#1a1a1a] to-transparent rounded-b-[4px] sm:rounded-b-[6px]"></div>
                   </div>
                 </div>
               </motion.div>
