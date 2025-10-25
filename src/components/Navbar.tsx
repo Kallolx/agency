@@ -254,7 +254,7 @@ export default function Navbar() {
                   {servicesData[activeCategory as keyof typeof servicesData].items.map((item, index) => (
                     <Link
                       key={item}
-                      href={`/services/${item.toLowerCase().replace(/\s+/g, '-')}`}
+                      href={`/services/${activeCategory.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-')}/${item.toLowerCase().replace(/\s+/g, '-')}`}
                       className="flex items-center gap-4 py-1.5 group"
                     >
                       <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-foreground font-bold text-sm">

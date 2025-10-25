@@ -32,6 +32,19 @@ const services = [
   },
   {
     id: 3,
+    title: "VIDEO & MOTION",
+    bgColor: "bg-[#9B59B6]",
+    items: [
+      "Motion Graphics",
+      "Promotional Ads",
+      "Logo Animation",
+      "Post-Production",
+      "Showcase Videos",
+      "Social Media",
+    ],
+  },
+  {
+    id: 4,
     title: "MARKETING",
     bgColor: "bg-[#50C878]",
     items: [
@@ -44,7 +57,7 @@ const services = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     title: "STRATEGY",
     bgColor: "bg-[#9B59B6]",
     items: [
@@ -56,6 +69,19 @@ const services = [
       "Innovation",
     ],
   },
+    {
+    id: 6,
+    title: "AI & AUTOMATION",
+    bgColor: "bg-[#E67E22]",
+    items: [
+      "AI Chatbot",
+      "Workflow Automation",
+      "AI Integrations",
+      "Data Analytics",
+      "Process Optimization",
+      "Smart Solutions",
+    ],
+  },
 ];
 
 const ServiceCard = ({
@@ -65,7 +91,7 @@ const ServiceCard = ({
   range,
   targetScale,
 }: {
-  service: typeof services[0];
+  service: (typeof services)[0];
   index: number;
   progress: any;
   range: [number, number];
@@ -75,7 +101,10 @@ const ServiceCard = ({
   const scale = useTransform(progress, range, [1, targetScale]);
 
   return (
-    <div ref={container} className="sticky top-0 flex items-center justify-center h-screen px-4">
+    <div
+      ref={container}
+      className="sticky top-0 flex items-center justify-center h-screen px-4"
+    >
       <motion.div
         style={{
           scale,
@@ -110,7 +139,9 @@ const ServiceCard = ({
           {/* Right Image Placeholder */}
           <div className="hidden lg:block w-full lg:w-[350px] h-[250px] lg:h-[280px]">
             <div className="w-full h-full bg-white/10 rounded-2xl flex items-center justify-center">
-              <span className="text-white text-lg opacity-50">Service Image</span>
+              <span className="text-white text-lg opacity-50">
+                Service Image
+              </span>
             </div>
           </div>
         </div>
@@ -122,7 +153,7 @@ const ServiceCard = ({
 export default function Services() {
   const container = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  
+
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ["start start", "end end"],
@@ -133,10 +164,10 @@ export default function Services() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Mobile horizontal scroll view
@@ -147,7 +178,7 @@ export default function Services() {
           <h2 className="text-4xl sm:text-5xl font-bold text-primary text-center mb-8 sm:mb-12">
             Our Services
           </h2>
-          
+
           {/* Horizontal scrollable container */}
           <div className="overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide">
             <div className="flex gap-4 sm:gap-6 min-w-max">
@@ -198,14 +229,15 @@ export default function Services() {
       </div>
 
       {services.map((service, i) => {
-        const targetScale = Math.max(0.85, 1 - (services.length - i - 1) * 0.05);
+        // More aggressive scaling - cards scale down more smoothly and evenly
+        const targetScale = 1 - (services.length - i - 1) * 0.08;
         return (
           <ServiceCard
             key={service.id}
             service={service}
             index={i}
             progress={scrollYProgress}
-            range={[i * 0.25, 1]}
+            range={[i * (1 / services.length), 1]}
             targetScale={targetScale}
           />
         );

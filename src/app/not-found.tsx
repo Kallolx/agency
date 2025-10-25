@@ -4,10 +4,13 @@ import { motion } from "framer-motion";
 import { Home, ArrowLeft, Search } from "lucide-react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <Navbar />
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         {/* 404 Number */}
@@ -42,9 +45,7 @@ export default function NotFound() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link href="/">
-            <Button variant="default">
-              GO TO HOMEPAGE
-            </Button>
+            <Button variant="default">GO TO HOMEPAGE</Button>
           </Link>
         </motion.div>
       </div>
